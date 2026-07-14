@@ -22,12 +22,13 @@ namespace vmx::caps
 
     void print(const ia32_vmx_basic_fields& f)
     {
-        print_kv("ia32_vmx_basic.revision_id", std::format("{:#x}", f.revision_id));
-        print_kv("ia32_vmx_basic.vmcs_region_size", std::format("{}", f.vmcs_region_size));
-        print_kv("ia32_vmx_basic.physical_width_32bit", f.physical_width_32bit ? "yes" : "no");
-        print_kv("ia32_vmx_basic.dual_monitor_smm", f.dual_monitor_smm ? "yes" : "no");
-        print_kv("ia32_vmx_basic.memory_type", std::format("{}", f.memory_type));
-        print_kv("ia32_vmx_basic.ins_outs_reporting", f.ins_outs_reporting ? "yes" : "no");
-        print_kv("ia32_vmx_basic.true_controls", f.true_controls ? "yes" : "no");
+        print_section("ia32_vmx_basic");
+        print_kv("    revision_id", std::format("{:#x}", f.revision_id));
+        print_kv("    vmcs_region_size", std::format("{}", f.vmcs_region_size));
+        print_kv("    physical_width_32bit", f.physical_width_32bit ? "yes" : "no");
+        print_kv("    dual_monitor_smm", f.dual_monitor_smm ? "yes" : "no");
+        print_kv("    memory_type", std::format("{}", f.memory_type));
+        print_kv("    ins_outs_reporting", f.ins_outs_reporting ? "yes" : "no");
+        print_kv("    true_controls", f.true_controls ? "yes" : "no");
     }
 }
