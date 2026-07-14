@@ -49,11 +49,27 @@ namespace vmx::json
             case '\n':
                 out_ << "\\n";
                 break;
+            case '\r':
+                out_ << "\\r";
+                break;
             case '\t':
                 out_ << "\\t";
                 break;
+            case '\b':
+                out_ << "\\b";
+                break;
+            case '\f':
+                out_ << "\\f";
+                break;
             default:
-                out_ << c;
+                if (static_cast<unsigned char>(c) < 0x20)
+                {
+                    out_ << std::format("\\u{:04x}", static_cast<unsigned>(c));
+                }
+                else
+                {
+                    out_ << c;
+                }
                 break;
             }
         }
