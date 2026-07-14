@@ -125,6 +125,17 @@ namespace
         return sig;
     }
 
+    std::string printable(std::string_view value)
+    {
+        std::string out{};
+        for (const char c : value)
+        {
+            const auto byte = static_cast<unsigned char>(c);
+            out.push_back(byte < 0x20 || byte >= 0x7f ? '?' : c);
+        }
+        return out;
+    }
+
     std::string decode_string(std::initializer_list<uint32_t> regs)
     {
         std::string text{};
@@ -244,7 +255,7 @@ namespace
 
     void render_text(const report& r)
     {
-        vmx::print_kv("vendor", r.vendor);
+        vmx::print_kv("vendor", printable(r.vendor));
         vmx::print_kv("family/model/stepping",
                       std::format("{:02x}_{:02x}_{}", r.sig.family, r.sig.model, r.sig.stepping));
         vmx::print_kv("vmx (intel vt-x)", r.vmx_supported ? "supported" : "not supported",
@@ -260,7 +271,7 @@ namespace
         }
         if (r.hypervisor_present)
         {
-            vmx::print_kv("hypervisor present", std::format("yes ({})", r.hypervisor_id));
+            vmx::print_kv("hypervisor present", std::format("yes ({})", printable(r.hypervisor_id)));
         }
         else
         {
