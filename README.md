@@ -1,5 +1,5 @@
-vmx-check v0.1  -  intel vt-x capability dumper
------------------------------------------------
+vmx-check v0.1.1  -  intel vt-x capability dumper
+-------------------------------------------------
 
 reads cpuid + vmx msrs, prints a decoded capability tree. detects vendor,
 family/model/stepping, vt-x/amd-v support, and the running-under-hypervisor
