@@ -8,6 +8,8 @@ add_executable(vmx-check
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_sources(vmx-check PRIVATE src/platform/msr_linux.cpp)
+elseif (WIN32)
+    target_sources(vmx-check PRIVATE src/platform/msr_windows.cpp)
 endif ()
 
 target_compile_features(vmx-check PRIVATE cxx_std_20)
