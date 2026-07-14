@@ -48,8 +48,14 @@ int main()
 {
     std::cout << "vendor: " << cpu_vendor() << '\n';
 
-    const auto sig = decode_signature(vmx::read_cpuid(1).eax);
+    const auto leaf1 = vmx::read_cpuid(1);
+    const auto sig = decode_signature(leaf1.eax);
     std::cout << std::format("family/model/stepping: {:02x}_{:02x}_{}\n", sig.family, sig.model,
                              sig.stepping);
+
+    // sdm vol.3 24.6, cpuid eax=01h, ecx bit 5
+    constexpr uint32_t vmx_feature_bit = 1u << 5;
+    const bool vmx_supported = (leaf1.ecx & vmx_feature_bit) != 0;
+    std::cout << "vmx (intel vt-x): " << (vmx_supported ? "supported" : "not supported") << '\n';
     return 0;
 }
