@@ -130,6 +130,7 @@ int main(int argc, char** argv)
         print_help(std::cout);
         return 0;
     }
+    if (opts.no_color) vmx::disable_color();
 
     const std::string vendor = cpu_vendor();
     vmx::print_kv("vendor", vendor);

@@ -11,5 +11,7 @@ namespace vmx
         info
     };
 
+    void disable_color();
+
     void print_kv(std::string_view key, std::string_view value, kv_status s = kv_status::info);
 }
