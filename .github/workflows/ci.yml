@@ -1,0 +1,43 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: ubuntu-gcc
+            os: ubuntu-latest
+            cc: gcc
+            cxx: g++
+          - name: ubuntu-clang
+            os: ubuntu-latest
+            cc: clang
+            cxx: clang++
+          - name: windows-msvc
+            os: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: configure
+        env:
+          CC: ${{ matrix.cc }}
+          CXX: ${{ matrix.cxx }}
+        run: cmake -S . -B build
+
+      - name: build
+        run: cmake --build build --config Debug
+
+      - name: smoke check (posix)
+        if: runner.os != 'Windows'
+        run: ./build/vmx-check --help
+
+      - name: smoke check (windows)
+        if: runner.os == 'Windows'
+        run: .\build\Debug\vmx-check.exe --help
