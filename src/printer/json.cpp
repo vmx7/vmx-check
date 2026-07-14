@@ -142,7 +142,7 @@ namespace vmx::json
     {
         write_separator();
         write_key(key);
-        out_ << value;
+        out_ << std::format("{}", value);
     }
 
     void json_writer::key_hex(std::string_view key, uint64_t value)
