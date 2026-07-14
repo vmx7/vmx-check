@@ -12,6 +12,7 @@
 #include "vmx/ia32_vmx_pinbased_ctls.hpp"
 #include "vmx/ia32_vmx_procbased_ctls.hpp"
 #include "vmx/ia32_vmx_procbased_ctls2.hpp"
+#include "vmx/ia32_vmx_exit_ctls.hpp"
 
 namespace
 {
@@ -19,6 +20,7 @@ namespace
     constexpr uint32_t ia32_vmx_pinbased_ctls = 0x481;
     constexpr uint32_t ia32_vmx_procbased_ctls = 0x482;
     constexpr uint32_t ia32_vmx_procbased_ctls2 = 0x48b;
+    constexpr uint32_t ia32_vmx_exit_ctls = 0x483;
 
     std::string_view msr_status_hint(vmx::msr::msr_status s)
     {
@@ -223,6 +225,12 @@ int main(int argc, char** argv)
     if (procbased2.status == vmx::msr::msr_status::ok)
     {
         vmx::caps::print(vmx::caps::parse_procbased_ctls2(procbased2.value));
+    }
+
+    const auto exit_ctls = vmx::msr::read_msr(ia32_vmx_exit_ctls);
+    if (exit_ctls.status == vmx::msr::msr_status::ok)
+    {
+        vmx::caps::print(vmx::caps::parse_exit_ctls(exit_ctls.value));
     }
     return 0;
 }
