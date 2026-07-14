@@ -22,6 +22,9 @@ jobs:
             cxx: clang++
           - name: windows-msvc
             os: windows-latest
+          - name: macos-stub
+            os: macos-latest
+            cmake_extra: -DCMAKE_OSX_ARCHITECTURES=x86_64
     steps:
       - uses: actions/checkout@v4
 
@@ -29,7 +32,7 @@ jobs:
         env:
           CC: ${{ matrix.cc }}
           CXX: ${{ matrix.cxx }}
-        run: cmake -S . -B build
+        run: cmake -S . -B build ${{ matrix.cmake_extra }}
 
       - name: build
         run: cmake --build build --config Debug
