@@ -93,6 +93,7 @@ namespace vmx::json
 
     void json_writer::end_object()
     {
+        if (needs_comma_.empty()) return;
         const bool had_members = needs_comma_.back();
         needs_comma_.pop_back();
         if (had_members)
@@ -114,6 +115,7 @@ namespace vmx::json
 
     void json_writer::end_array()
     {
+        if (needs_comma_.empty()) return;
         const bool had_members = needs_comma_.back();
         needs_comma_.pop_back();
         if (had_members)
