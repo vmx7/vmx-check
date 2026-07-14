@@ -46,7 +46,8 @@ namespace
 
 int main()
 {
-    std::cout << "vendor: " << cpu_vendor() << '\n';
+    const std::string vendor = cpu_vendor();
+    std::cout << "vendor: " << vendor << '\n';
 
     const auto leaf1 = vmx::read_cpuid(1);
     const auto sig = decode_signature(leaf1.eax);
@@ -57,5 +58,17 @@ int main()
     constexpr uint32_t vmx_feature_bit = 1u << 5;
     const bool vmx_supported = (leaf1.ecx & vmx_feature_bit) != 0;
     std::cout << "vmx (intel vt-x): " << (vmx_supported ? "supported" : "not supported") << '\n';
+
+    if (vendor == "AuthenticAMD")
+    {
+        // amd apm vol.3, cpuid fn8000_0001h, ecx bit 2
+        constexpr uint32_t svm_feature_bit = 1u << 2;
+        const bool svm_supported = (vmx::read_cpuid(0x80000001).ecx & svm_feature_bit) != 0;
+        std::cout << "svm (amd-v): " << (svm_supported ? "supported" : "not supported") << '\n';
+    }
+    else
+    {
+        std::cout << "svm (amd-v): n/a\n";
+    }
     return 0;
 }
