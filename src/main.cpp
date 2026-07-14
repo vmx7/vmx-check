@@ -1,12 +1,60 @@
 #include <cstdint>
 #include <format>
+#include <iostream>
+#include <span>
 #include <string>
+#include <string_view>
 
 #include "cpuid.hpp"
 #include "printer.hpp"
 
 namespace
 {
+    enum class output_mode
+    {
+        text,
+        json
+    };
+
+    struct cli_options
+    {
+        output_mode mode = output_mode::text;
+        bool no_color = false;
+        bool help = false;
+        std::string_view unknown{};
+    };
+
+    cli_options parse_args(std::span<char*> args)
+    {
+        cli_options opts{};
+        for (size_t i = 1; i < args.size(); ++i)
+        {
+            const std::string_view flag{args[i]};
+            if (flag == "--no-color")
+            {
+                opts.no_color = true;
+            }
+            else if (flag == "--json")
+            {
+                opts.mode = output_mode::json;
+            }
+            else if (flag == "--help")
+            {
+                opts.help = true;
+            }
+            else
+            {
+                opts.unknown = flag;
+            }
+        }
+        return opts;
+    }
+
+    void print_usage(std::ostream & out)
+    {
+        out << "usage: vmx-check [--json] [--no-color] [--help]\n";
+    }
+
     struct cpu_signature
     {
         uint32_t family;
@@ -57,8 +105,21 @@ namespace
     }
 }
 
-int main()
+int main(int argc, char** argv)
 {
+    const auto opts = parse_args(std::span(argv, static_cast<size_t>(argc)));
+    if (!opts.unknown.empty())
+    {
+        std::cerr << "unknown flag: " << opts.unknown << '\n';
+        print_usage(std::cerr);
+        return 2;
+    }
+    if (opts.help)
+    {
+        print_usage(std::cout);
+        return 0;
+    }
+
     const std::string vendor = cpu_vendor();
     vmx::print_kv("vendor", vendor);
 
