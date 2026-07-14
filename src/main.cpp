@@ -10,11 +10,13 @@
 #include "printer.hpp"
 #include "vmx/ia32_vmx_basic.hpp"
 #include "vmx/ia32_vmx_pinbased_ctls.hpp"
+#include "vmx/ia32_vmx_procbased_ctls.hpp"
 
 namespace
 {
     constexpr uint32_t ia32_vmx_basic = 0x480;
     constexpr uint32_t ia32_vmx_pinbased_ctls = 0x481;
+    constexpr uint32_t ia32_vmx_procbased_ctls = 0x482;
 
     std::string_view msr_status_hint(vmx::msr::msr_status s)
     {
@@ -207,6 +209,12 @@ int main(int argc, char** argv)
     if (pinbased.status == vmx::msr::msr_status::ok)
     {
         vmx::caps::print(vmx::caps::parse_pinbased_ctls(pinbased.value));
+    }
+
+    const auto procbased = vmx::msr::read_msr(ia32_vmx_procbased_ctls);
+    if (procbased.status == vmx::msr::msr_status::ok)
+    {
+        vmx::caps::print(vmx::caps::parse_procbased_ctls(procbased.value));
     }
     return 0;
 }
