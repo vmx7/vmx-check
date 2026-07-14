@@ -1,9 +1,9 @@
 #include <cstdint>
 #include <format>
-#include <iostream>
 #include <string>
 
 #include "cpuid.hpp"
+#include "printer.hpp"
 
 namespace
 {
@@ -60,39 +60,41 @@ namespace
 int main()
 {
     const std::string vendor = cpu_vendor();
-    std::cout << "vendor: " << vendor << '\n';
+    vmx::print_kv("vendor", vendor);
 
     const auto leaf1 = vmx::read_cpuid(1);
     const auto sig = decode_signature(leaf1.eax);
-    std::cout << std::format("family/model/stepping: {:02x}_{:02x}_{}\n", sig.family, sig.model,
-                             sig.stepping);
+    vmx::print_kv("family/model/stepping",
+                  std::format("{:02x}_{:02x}_{}", sig.family, sig.model, sig.stepping));
 
     // sdm vol.3 24.6, cpuid eax=01h, ecx bit 5
     constexpr uint32_t vmx_feature_bit = 1u << 5;
     const bool vmx_supported = (leaf1.ecx & vmx_feature_bit) != 0;
-    std::cout << "vmx (intel vt-x): " << (vmx_supported ? "supported" : "not supported") << '\n';
+    vmx::print_kv("vmx (intel vt-x)", vmx_supported ? "supported" : "not supported",
+                  vmx_supported ? vmx::kv_status::ok : vmx::kv_status::bad);
 
     if (vendor == "AuthenticAMD")
     {
         // amd apm vol.3, cpuid fn8000_0001h, ecx bit 2
         constexpr uint32_t svm_feature_bit = 1u << 2;
         const bool svm_supported = (vmx::read_cpuid(0x80000001).ecx & svm_feature_bit) != 0;
-        std::cout << "svm (amd-v): " << (svm_supported ? "supported" : "not supported") << '\n';
+        vmx::print_kv("svm (amd-v)", svm_supported ? "supported" : "not supported",
+                      svm_supported ? vmx::kv_status::ok : vmx::kv_status::bad);
     }
     else
     {
-        std::cout << "svm (amd-v): n/a\n";
+        vmx::print_kv("svm (amd-v)", "n/a");
     }
 
     // cpuid eax=01h ecx bit 31; vendor id in leaf 40000000h ebx, ecx, edx
     constexpr uint32_t hypervisor_present_bit = 1u << 31;
     if ((leaf1.ecx & hypervisor_present_bit) != 0)
     {
-        std::cout << "hypervisor present: yes (" << hypervisor_vendor() << ")\n";
+        vmx::print_kv("hypervisor present", std::format("yes ({})", hypervisor_vendor()));
     }
     else
     {
-        std::cout << "hypervisor present: no\n";
+        vmx::print_kv("hypervisor present", "no");
     }
     return 0;
 }

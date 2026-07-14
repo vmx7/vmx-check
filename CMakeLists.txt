@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.20)
 
 project(vmx_check LANGUAGES CXX)
 
-add_executable(vmx-check src/main.cpp)
+add_executable(vmx-check
+    src/main.cpp
+    src/printer.cpp)
 
 target_compile_features(vmx-check PRIVATE cxx_std_20)
 
