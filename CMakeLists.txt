@@ -5,6 +5,7 @@ project(vmx_check LANGUAGES CXX)
 add_executable(vmx-check
     src/main.cpp
     src/printer.cpp
+    src/printer/json.cpp
     src/vmx/ia32_vmx_basic.cpp
     src/vmx/ia32_vmx_pinbased_ctls.cpp
     src/vmx/ia32_vmx_procbased_ctls.cpp
