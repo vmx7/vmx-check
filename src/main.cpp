@@ -55,6 +55,17 @@ namespace
         out << "usage: vmx-check [--json] [--no-color] [--help]\n";
     }
 
+    void print_help(std::ostream & out)
+    {
+        out << "vmx-check - intel vt-x capability dumper\n\n";
+        print_usage(out);
+        out << "\n"
+               "flags:\n"
+               "    --json         emit json instead of text\n"
+               "    --no-color     disable ansi colors\n"
+               "    --help         print this help\n";
+    }
+
     struct cpu_signature
     {
         uint32_t family;
@@ -116,7 +127,7 @@ int main(int argc, char** argv)
     }
     if (opts.help)
     {
-        print_usage(std::cout);
+        print_help(std::cout);
         return 0;
     }
 
