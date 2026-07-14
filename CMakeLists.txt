@@ -4,7 +4,8 @@ project(vmx_check LANGUAGES CXX)
 
 add_executable(vmx-check
     src/main.cpp
-    src/printer.cpp)
+    src/printer.cpp
+    src/vmx/ia32_vmx_basic.cpp)
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_sources(vmx-check PRIVATE src/platform/msr_linux.cpp)

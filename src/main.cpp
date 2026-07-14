@@ -8,6 +8,7 @@
 #include "cpuid.hpp"
 #include "msr.hpp"
 #include "printer.hpp"
+#include "vmx/ia32_vmx_basic.hpp"
 
 namespace
 {
@@ -195,6 +196,9 @@ int main(int argc, char** argv)
     if (probe.status != vmx::msr::msr_status::ok)
     {
         vmx::print_kv("msr", msr_status_hint(probe.status), vmx::kv_status::bad);
+        return 0;
     }
+
+    vmx::vmx_msr::print(vmx::vmx_msr::parse(probe.value));
     return 0;
 }
