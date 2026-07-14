@@ -6,10 +6,31 @@
 #include <string_view>
 
 #include "cpuid.hpp"
+#include "msr.hpp"
 #include "printer.hpp"
 
 namespace
 {
+    constexpr uint32_t ia32_vmx_basic = 0x480;
+
+    std::string_view msr_status_hint(vmx::msr::msr_status s)
+    {
+        switch (s)
+        {
+        case vmx::msr::msr_status::permission_denied:
+            return "msr read unavailable - run with sudo (linux) or install driver (windows)";
+        case vmx::msr::msr_status::not_supported:
+            return "msr read unavailable - /dev/cpu/N/msr missing (load the msr module)";
+        case vmx::msr::msr_status::not_implemented:
+            return "msr read unavailable - no msr backend on this platform";
+        case vmx::msr::msr_status::io_error:
+            return "msr read unavailable - i/o error";
+        case vmx::msr::msr_status::ok:
+            return {};
+        }
+        return {};
+    }
+
     enum class output_mode
     {
         text,
@@ -168,6 +189,12 @@ int main(int argc, char** argv)
     else
     {
         vmx::print_kv("hypervisor present", "no");
+    }
+
+    const auto probe = vmx::msr::read_msr(ia32_vmx_basic);
+    if (probe.status != vmx::msr::msr_status::ok)
+    {
+        vmx::print_kv("msr", msr_status_hint(probe.status), vmx::kv_status::bad);
     }
     return 0;
 }
