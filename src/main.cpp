@@ -29,17 +29,30 @@ namespace
         return sig;
     }
 
-    std::string cpu_vendor()
+    std::string decode_string(std::initializer_list<uint32_t> regs)
     {
-        const auto regs = vmx::read_cpuid(0);
-        std::string vendor{};
-        for (const auto reg : {regs.ebx, regs.edx, regs.ecx})
+        std::string text{};
+        for (const auto reg : regs)
         {
             for (int shift = 0; shift < 32; shift += 8)
             {
-                vendor.push_back(static_cast<char>(reg >> shift));
+                text.push_back(static_cast<char>(reg >> shift));
             }
         }
+        return text;
+    }
+
+    std::string cpu_vendor()
+    {
+        const auto regs = vmx::read_cpuid(0);
+        return decode_string({regs.ebx, regs.edx, regs.ecx});
+    }
+
+    std::string hypervisor_vendor()
+    {
+        const auto regs = vmx::read_cpuid(0x40000000);
+        std::string vendor = decode_string({regs.ebx, regs.ecx, regs.edx});
+        vendor.erase(vendor.find_last_not_of('\0') + 1);
         return vendor;
     }
 }
@@ -69,6 +82,17 @@ int main()
     else
     {
         std::cout << "svm (amd-v): n/a\n";
+    }
+
+    // cpuid eax=01h ecx bit 31; vendor id in leaf 40000000h ebx, ecx, edx
+    constexpr uint32_t hypervisor_present_bit = 1u << 31;
+    if ((leaf1.ecx & hypervisor_present_bit) != 0)
+    {
+        std::cout << "hypervisor present: yes (" << hypervisor_vendor() << ")\n";
+    }
+    else
+    {
+        std::cout << "hypervisor present: no\n";
     }
     return 0;
 }
