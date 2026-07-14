@@ -58,6 +58,7 @@ namespace
         output_mode mode = output_mode::text;
         bool no_color = false;
         bool help = false;
+        bool has_unknown = false;
         std::string_view unknown{};
     };
 
@@ -79,8 +80,9 @@ namespace
             {
                 opts.help = true;
             }
-            else
+            else if (!opts.has_unknown)
             {
+                opts.has_unknown = true;
                 opts.unknown = flag;
             }
         }
@@ -331,7 +333,7 @@ namespace
 int main(int argc, char** argv)
 {
     const auto opts = parse_args(std::span(argv, static_cast<size_t>(argc)));
-    if (!opts.unknown.empty())
+    if (opts.has_unknown)
     {
         std::cerr << "unknown flag: " << opts.unknown << '\n';
         print_usage(std::cerr);
