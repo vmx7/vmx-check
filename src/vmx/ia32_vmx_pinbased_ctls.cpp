@@ -32,4 +32,15 @@ namespace vmx::caps
                  f.activate_vmx_preemption_timer ? "yes" : "no");
         print_kv("    process_posted_interrupts", f.process_posted_interrupts ? "yes" : "no");
     }
+
+    void to_json(json::json_writer & w, const ia32_vmx_pinbased_ctls_fields& f)
+    {
+        w.begin_object("ia32_vmx_pinbased_ctls");
+        w.key_bool("external_interrupt_exiting", f.external_interrupt_exiting);
+        w.key_bool("nmi_exiting", f.nmi_exiting);
+        w.key_bool("virtual_nmis", f.virtual_nmis);
+        w.key_bool("activate_vmx_preemption_timer", f.activate_vmx_preemption_timer);
+        w.key_bool("process_posted_interrupts", f.process_posted_interrupts);
+        w.end_object();
+    }
 }

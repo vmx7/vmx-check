@@ -44,4 +44,21 @@ namespace vmx::caps
         print_kv("    clear_ia32_bndcfgs", f.clear_ia32_bndcfgs ? "yes" : "no");
         print_kv("    conceal_vmx_from_pt", f.conceal_vmx_from_pt ? "yes" : "no");
     }
+
+    void to_json(json::json_writer & w, const ia32_vmx_exit_ctls_fields& f)
+    {
+        w.begin_object("ia32_vmx_exit_ctls");
+        w.key_bool("save_debug_controls", f.save_debug_controls);
+        w.key_bool("host_address_space_size", f.host_address_space_size);
+        w.key_bool("load_ia32_perf_global_ctrl", f.load_ia32_perf_global_ctrl);
+        w.key_bool("acknowledge_interrupt_on_exit", f.acknowledge_interrupt_on_exit);
+        w.key_bool("save_ia32_pat", f.save_ia32_pat);
+        w.key_bool("load_ia32_pat", f.load_ia32_pat);
+        w.key_bool("save_ia32_efer", f.save_ia32_efer);
+        w.key_bool("load_ia32_efer", f.load_ia32_efer);
+        w.key_bool("save_vmx_preemption_timer", f.save_vmx_preemption_timer);
+        w.key_bool("clear_ia32_bndcfgs", f.clear_ia32_bndcfgs);
+        w.key_bool("conceal_vmx_from_pt", f.conceal_vmx_from_pt);
+        w.end_object();
+    }
 }

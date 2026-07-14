@@ -31,4 +31,17 @@ namespace vmx::caps
         print_kv("    ins_outs_reporting", f.ins_outs_reporting ? "yes" : "no");
         print_kv("    true_controls", f.true_controls ? "yes" : "no");
     }
+
+    void to_json(json::json_writer & w, const ia32_vmx_basic_fields& f)
+    {
+        w.begin_object("ia32_vmx_basic");
+        w.key_hex("revision_id", f.revision_id);
+        w.key_uint("vmcs_region_size", f.vmcs_region_size);
+        w.key_bool("physical_width_32bit", f.physical_width_32bit);
+        w.key_bool("dual_monitor_smm", f.dual_monitor_smm);
+        w.key_uint("memory_type", f.memory_type);
+        w.key_bool("ins_outs_reporting", f.ins_outs_reporting);
+        w.key_bool("true_controls", f.true_controls);
+        w.end_object();
+    }
 }

@@ -53,4 +53,27 @@ namespace vmx::caps
         print_kv("    invvpid_single_context_retaining_globals",
                  f.invvpid_single_context_retaining_globals ? "yes" : "no");
     }
+
+    void to_json(json::json_writer & w, const ia32_vmx_ept_vpid_cap_fields& f)
+    {
+        w.begin_object("ia32_vmx_ept_vpid_cap");
+        w.key_bool("execute_only_translation", f.execute_only_translation);
+        w.key_bool("page_walk_length_4", f.page_walk_length_4);
+        w.key_bool("memory_type_uncacheable", f.memory_type_uncacheable);
+        w.key_bool("memory_type_writeback", f.memory_type_writeback);
+        w.key_bool("pde_2mb_pages", f.pde_2mb_pages);
+        w.key_bool("pdpte_1gb_pages", f.pdpte_1gb_pages);
+        w.key_bool("invept_supported", f.invept_supported);
+        w.key_bool("ept_accessed_dirty_flags", f.ept_accessed_dirty_flags);
+        w.key_bool("advanced_ept_violations", f.advanced_ept_violations);
+        w.key_bool("invept_single_context", f.invept_single_context);
+        w.key_bool("invept_all_context", f.invept_all_context);
+        w.key_bool("invvpid_supported", f.invvpid_supported);
+        w.key_bool("invvpid_individual_address", f.invvpid_individual_address);
+        w.key_bool("invvpid_single_context", f.invvpid_single_context);
+        w.key_bool("invvpid_all_context", f.invvpid_all_context);
+        w.key_bool("invvpid_single_context_retaining_globals",
+                   f.invvpid_single_context_retaining_globals);
+        w.end_object();
+    }
 }

@@ -67,4 +67,32 @@ namespace vmx::caps
                  f.mode_based_execute_control_ept ? "yes" : "no");
         print_kv("    use_tsc_scaling", f.use_tsc_scaling ? "yes" : "no");
     }
+
+    void to_json(json::json_writer & w, const ia32_vmx_procbased_ctls2_fields& f)
+    {
+        w.begin_object("ia32_vmx_procbased_ctls2");
+        w.key_bool("virtualize_apic_accesses", f.virtualize_apic_accesses);
+        w.key_bool("enable_ept", f.enable_ept);
+        w.key_bool("descriptor_table_exiting", f.descriptor_table_exiting);
+        w.key_bool("enable_rdtscp", f.enable_rdtscp);
+        w.key_bool("virtualize_x2apic_mode", f.virtualize_x2apic_mode);
+        w.key_bool("enable_vpid", f.enable_vpid);
+        w.key_bool("wbinvd_exiting", f.wbinvd_exiting);
+        w.key_bool("unrestricted_guest", f.unrestricted_guest);
+        w.key_bool("apic_register_virtualization", f.apic_register_virtualization);
+        w.key_bool("virtual_interrupt_delivery", f.virtual_interrupt_delivery);
+        w.key_bool("pause_loop_exiting", f.pause_loop_exiting);
+        w.key_bool("rdrand_exiting", f.rdrand_exiting);
+        w.key_bool("enable_invpcid", f.enable_invpcid);
+        w.key_bool("enable_vm_functions", f.enable_vm_functions);
+        w.key_bool("vmcs_shadowing", f.vmcs_shadowing);
+        w.key_bool("enable_encls_exiting", f.enable_encls_exiting);
+        w.key_bool("rdseed_exiting", f.rdseed_exiting);
+        w.key_bool("enable_pml", f.enable_pml);
+        w.key_bool("ept_violation_ve", f.ept_violation_ve);
+        w.key_bool("enable_xsaves_xrstors", f.enable_xsaves_xrstors);
+        w.key_bool("mode_based_execute_control_ept", f.mode_based_execute_control_ept);
+        w.key_bool("use_tsc_scaling", f.use_tsc_scaling);
+        w.end_object();
+    }
 }

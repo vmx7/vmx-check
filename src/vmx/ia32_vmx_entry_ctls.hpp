@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+#include "../printer/json.hpp"
+
 namespace vmx::caps
 {
     struct ia32_vmx_entry_ctls_fields
@@ -20,4 +22,6 @@ namespace vmx::caps
     [[nodiscard]] ia32_vmx_entry_ctls_fields parse_entry_ctls(uint64_t raw) noexcept;
 
     void print(const ia32_vmx_entry_ctls_fields& f);
+
+    void to_json(json::json_writer & w, const ia32_vmx_entry_ctls_fields& f);
 }

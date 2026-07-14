@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+#include "../printer/json.hpp"
+
 namespace vmx::caps
 {
     struct ia32_vmx_basic_fields
@@ -18,4 +20,6 @@ namespace vmx::caps
     [[nodiscard]] ia32_vmx_basic_fields parse_basic(uint64_t raw) noexcept;
 
     void print(const ia32_vmx_basic_fields& f);
+
+    void to_json(json::json_writer & w, const ia32_vmx_basic_fields& f);
 }
