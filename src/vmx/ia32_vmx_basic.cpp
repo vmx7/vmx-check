@@ -7,7 +7,7 @@
 namespace vmx::caps
 {
     // sdm vol.3 a.1, ia32_vmx_basic (msr 0x480)
-    ia32_vmx_basic_fields parse(uint64_t raw) noexcept
+    ia32_vmx_basic_fields parse_basic(uint64_t raw) noexcept
     {
         ia32_vmx_basic_fields f{};
         f.revision_id = static_cast<uint32_t>(raw & 0x7fffffff);

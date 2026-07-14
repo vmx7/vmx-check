@@ -9,10 +9,12 @@
 #include "msr.hpp"
 #include "printer.hpp"
 #include "vmx/ia32_vmx_basic.hpp"
+#include "vmx/ia32_vmx_pinbased_ctls.hpp"
 
 namespace
 {
     constexpr uint32_t ia32_vmx_basic = 0x480;
+    constexpr uint32_t ia32_vmx_pinbased_ctls = 0x481;
 
     std::string_view msr_status_hint(vmx::msr::msr_status s)
     {
@@ -199,6 +201,12 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    vmx::caps::print(vmx::caps::parse(probe.value));
+    vmx::caps::print(vmx::caps::parse_basic(probe.value));
+
+    const auto pinbased = vmx::msr::read_msr(ia32_vmx_pinbased_ctls);
+    if (pinbased.status == vmx::msr::msr_status::ok)
+    {
+        vmx::caps::print(vmx::caps::parse_pinbased_ctls(pinbased.value));
+    }
     return 0;
 }

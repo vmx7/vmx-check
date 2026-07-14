@@ -15,7 +15,7 @@ namespace vmx::caps
         bool true_controls;
     };
 
-    [[nodiscard]] ia32_vmx_basic_fields parse(uint64_t raw) noexcept;
+    [[nodiscard]] ia32_vmx_basic_fields parse_basic(uint64_t raw) noexcept;
 
     void print(const ia32_vmx_basic_fields& f);
 }
