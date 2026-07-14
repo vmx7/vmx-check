@@ -7,6 +7,7 @@ namespace vmx::msr
     enum class msr_status
     {
         ok,
+        not_applicable,
         not_supported,
         permission_denied,
         io_error,

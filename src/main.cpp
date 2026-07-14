@@ -31,6 +31,8 @@ namespace
     {
         switch (s)
         {
+        case vmx::msr::msr_status::not_applicable:
+            return "vmx not supported - no vmx capability msrs on this cpu";
         case vmx::msr::msr_status::permission_denied:
             return "msr read unavailable - run with sudo (linux) or install driver (windows)";
         case vmx::msr::msr_status::not_supported:
@@ -200,6 +202,12 @@ namespace
         constexpr uint32_t hypervisor_present_bit = 1u << 31;
         r.hypervisor_present = (leaf1.ecx & hypervisor_present_bit) != 0;
         if (r.hypervisor_present) r.hypervisor_id = hypervisor_vendor();
+
+        if (!r.vmx_supported)
+        {
+            r.msr_status = vmx::msr::msr_status::not_applicable;
+            return r;
+        }
 
         const auto probe = vmx::msr::read_msr(ia32_vmx_basic);
         r.msr_status = probe.status;
