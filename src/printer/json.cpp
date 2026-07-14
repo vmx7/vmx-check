@@ -62,9 +62,9 @@ namespace vmx::json
                 out_ << "\\f";
                 break;
             default:
-                if (static_cast<unsigned char>(c) < 0x20)
+                if (const auto byte = static_cast<unsigned char>(c); byte < 0x20 || byte >= 0x7f)
                 {
-                    out_ << std::format("\\u{:04x}", static_cast<unsigned>(c));
+                    out_ << std::format("\\u{:04x}", static_cast<unsigned>(byte));
                 }
                 else
                 {
