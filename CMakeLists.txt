@@ -10,7 +10,8 @@ add_executable(vmx-check
     src/vmx/ia32_vmx_procbased_ctls.cpp
     src/vmx/ia32_vmx_procbased_ctls2.cpp
     src/vmx/ia32_vmx_exit_ctls.cpp
-    src/vmx/ia32_vmx_entry_ctls.cpp)
+    src/vmx/ia32_vmx_entry_ctls.cpp
+    src/vmx/ia32_vmx_ept_vpid_cap.cpp)
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_sources(vmx-check PRIVATE src/platform/msr_linux.cpp)

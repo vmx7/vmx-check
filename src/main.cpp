@@ -14,6 +14,7 @@
 #include "vmx/ia32_vmx_procbased_ctls2.hpp"
 #include "vmx/ia32_vmx_exit_ctls.hpp"
 #include "vmx/ia32_vmx_entry_ctls.hpp"
+#include "vmx/ia32_vmx_ept_vpid_cap.hpp"
 
 namespace
 {
@@ -23,6 +24,7 @@ namespace
     constexpr uint32_t ia32_vmx_procbased_ctls2 = 0x48b;
     constexpr uint32_t ia32_vmx_exit_ctls = 0x483;
     constexpr uint32_t ia32_vmx_entry_ctls = 0x484;
+    constexpr uint32_t ia32_vmx_ept_vpid_cap = 0x48c;
 
     std::string_view msr_status_hint(vmx::msr::msr_status s)
     {
@@ -239,6 +241,12 @@ int main(int argc, char** argv)
     if (entry_ctls.status == vmx::msr::msr_status::ok)
     {
         vmx::caps::print(vmx::caps::parse_entry_ctls(entry_ctls.value));
+    }
+
+    const auto ept_vpid = vmx::msr::read_msr(ia32_vmx_ept_vpid_cap);
+    if (ept_vpid.status == vmx::msr::msr_status::ok)
+    {
+        vmx::caps::print(vmx::caps::parse_ept_vpid_cap(ept_vpid.value));
     }
     return 0;
 }
