@@ -199,6 +199,6 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    vmx::vmx_msr::print(vmx::vmx_msr::parse(probe.value));
+    vmx::caps::print(vmx::caps::parse(probe.value));
     return 0;
 }

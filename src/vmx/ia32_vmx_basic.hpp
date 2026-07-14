@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace vmx::vmx_msr
+namespace vmx::caps
 {
     struct ia32_vmx_basic_fields
     {
