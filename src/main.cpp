@@ -255,7 +255,7 @@ namespace
         return r;
     }
 
-    void render_text(const report& r)
+    void render_text(const report & r)
     {
         vmx::print_kv("vendor", printable(r.vendor));
         vmx::print_kv("family/model/stepping",
@@ -295,7 +295,7 @@ namespace
         if (r.have_ept_vpid) vmx::caps::print(r.ept_vpid);
     }
 
-    void render_json(const report& r)
+    void render_json(const report & r)
     {
         vmx::json::json_writer w(std::cout);
         w.begin_object();

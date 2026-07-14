@@ -38,7 +38,7 @@ namespace vmx::caps
         return f;
     }
 
-    void print(const ia32_vmx_procbased_ctls_fields& f)
+    void print(const ia32_vmx_procbased_ctls_fields & f)
     {
         print_section("ia32_vmx_procbased_ctls");
         print_kv("    interrupt_window_exiting", f.interrupt_window_exiting ? "yes" : "no");
@@ -64,7 +64,7 @@ namespace vmx::caps
         print_kv("    activate_secondary_controls", f.activate_secondary_controls ? "yes" : "no");
     }
 
-    void to_json(json::json_writer & w, const ia32_vmx_procbased_ctls_fields& f)
+    void to_json(json::json_writer & w, const ia32_vmx_procbased_ctls_fields & f)
     {
         w.begin_object("ia32_vmx_procbased_ctls");
         w.key_bool("interrupt_window_exiting", f.interrupt_window_exiting);

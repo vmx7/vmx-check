@@ -22,7 +22,7 @@ namespace vmx::caps
         return f;
     }
 
-    void print(const ia32_vmx_pinbased_ctls_fields& f)
+    void print(const ia32_vmx_pinbased_ctls_fields & f)
     {
         print_section("ia32_vmx_pinbased_ctls");
         print_kv("    external_interrupt_exiting", f.external_interrupt_exiting ? "yes" : "no");
@@ -33,7 +33,7 @@ namespace vmx::caps
         print_kv("    process_posted_interrupts", f.process_posted_interrupts ? "yes" : "no");
     }
 
-    void to_json(json::json_writer & w, const ia32_vmx_pinbased_ctls_fields& f)
+    void to_json(json::json_writer & w, const ia32_vmx_pinbased_ctls_fields & f)
     {
         w.begin_object("ia32_vmx_pinbased_ctls");
         w.key_bool("external_interrupt_exiting", f.external_interrupt_exiting);

@@ -28,7 +28,7 @@ namespace vmx::caps
         return f;
     }
 
-    void print(const ia32_vmx_exit_ctls_fields& f)
+    void print(const ia32_vmx_exit_ctls_fields & f)
     {
         print_section("ia32_vmx_exit_ctls");
         print_kv("    save_debug_controls", f.save_debug_controls ? "yes" : "no");
@@ -45,7 +45,7 @@ namespace vmx::caps
         print_kv("    conceal_vmx_from_pt", f.conceal_vmx_from_pt ? "yes" : "no");
     }
 
-    void to_json(json::json_writer & w, const ia32_vmx_exit_ctls_fields& f)
+    void to_json(json::json_writer & w, const ia32_vmx_exit_ctls_fields & f)
     {
         w.begin_object("ia32_vmx_exit_ctls");
         w.key_bool("save_debug_controls", f.save_debug_controls);

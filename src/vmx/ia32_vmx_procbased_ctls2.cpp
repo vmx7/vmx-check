@@ -39,7 +39,7 @@ namespace vmx::caps
         return f;
     }
 
-    void print(const ia32_vmx_procbased_ctls2_fields& f)
+    void print(const ia32_vmx_procbased_ctls2_fields & f)
     {
         print_section("ia32_vmx_procbased_ctls2");
         print_kv("    virtualize_apic_accesses", f.virtualize_apic_accesses ? "yes" : "no");
@@ -68,7 +68,7 @@ namespace vmx::caps
         print_kv("    use_tsc_scaling", f.use_tsc_scaling ? "yes" : "no");
     }
 
-    void to_json(json::json_writer & w, const ia32_vmx_procbased_ctls2_fields& f)
+    void to_json(json::json_writer & w, const ia32_vmx_procbased_ctls2_fields & f)
     {
         w.begin_object("ia32_vmx_procbased_ctls2");
         w.key_bool("virtualize_apic_accesses", f.virtualize_apic_accesses);

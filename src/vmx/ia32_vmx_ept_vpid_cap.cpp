@@ -32,7 +32,7 @@ namespace vmx::caps
         return f;
     }
 
-    void print(const ia32_vmx_ept_vpid_cap_fields& f)
+    void print(const ia32_vmx_ept_vpid_cap_fields & f)
     {
         print_section("ia32_vmx_ept_vpid_cap");
         print_kv("    execute_only_translation", f.execute_only_translation ? "yes" : "no");
@@ -54,7 +54,7 @@ namespace vmx::caps
                  f.invvpid_single_context_retaining_globals ? "yes" : "no");
     }
 
-    void to_json(json::json_writer & w, const ia32_vmx_ept_vpid_cap_fields& f)
+    void to_json(json::json_writer & w, const ia32_vmx_ept_vpid_cap_fields & f)
     {
         w.begin_object("ia32_vmx_ept_vpid_cap");
         w.key_bool("execute_only_translation", f.execute_only_translation);

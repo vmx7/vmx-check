@@ -20,7 +20,7 @@ namespace vmx::caps
         return f;
     }
 
-    void print(const ia32_vmx_basic_fields& f)
+    void print(const ia32_vmx_basic_fields & f)
     {
         print_section("ia32_vmx_basic");
         print_kv("    revision_id", std::format("{:#x}", f.revision_id));
@@ -32,7 +32,7 @@ namespace vmx::caps
         print_kv("    true_controls", f.true_controls ? "yes" : "no");
     }
 
-    void to_json(json::json_writer & w, const ia32_vmx_basic_fields& f)
+    void to_json(json::json_writer & w, const ia32_vmx_basic_fields & f)
     {
         w.begin_object("ia32_vmx_basic");
         w.key_hex("revision_id", f.revision_id);

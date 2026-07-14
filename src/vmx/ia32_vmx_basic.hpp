@@ -19,7 +19,7 @@ namespace vmx::caps
 
     [[nodiscard]] ia32_vmx_basic_fields parse_basic(uint64_t raw) noexcept;
 
-    void print(const ia32_vmx_basic_fields& f);
+    void print(const ia32_vmx_basic_fields & f);
 
-    void to_json(json::json_writer & w, const ia32_vmx_basic_fields& f);
+    void to_json(json::json_writer & w, const ia32_vmx_basic_fields & f);
 }
